@@ -1,0 +1,20 @@
+<%@ page contentType="text/html;charset=UTF-8" language="java" %>
+
+<div class="letters">
+    <jsp:useBean id="letterList" class="ru.web.beans.LetterList" scope="application"/>
+    <%
+        String selectedLetter = null;
+        if(request.getParameter("letter") != null) {
+            selectedLetter = new String(request.getParameter("letter").getBytes("ISO8859-1"), "UTF-8");
+            session.setAttribute("letter", selectedLetter);
+        }
+
+        char[] letters = letterList.getRussianList();
+        for(int i = 0; i < letters.length; i++) {
+            if(selectedLetter != null && selectedLetter.toUpperCase().charAt(0) == letters[i]) {%>
+                <a style="color: red" href="books.jsp?letter=<%=letters[i]%>"><%=letters[i]%></a>
+            <%} else {%>
+                <a href="books.jsp?letter=<%=letters[i]%>"><%=letters[i]%></a>
+            <%}
+        }%>
+</div>
